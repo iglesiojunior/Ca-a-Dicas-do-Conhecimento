@@ -227,11 +227,30 @@ body {
     100% { transform: scale(1); }
 }
 
+/* Ícone de imagem amigável */
+#image-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f0f0f0;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+#image-icon:hover, #image-icon:focus {
+  background: #e0eaff;
+  box-shadow: 0 0 0 2px #4a90e2;
+}
+#image-icon svg {
+  display: block;
+}
 .input-area {
-    display: flex;
-    gap: 15px;
-    padding: 20px;
-    background: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .input-area input {

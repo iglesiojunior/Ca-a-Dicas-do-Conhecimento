@@ -26,6 +26,21 @@ const timerElement = document.getElementById('timer');
 const winsElement = document.getElementById('wins');
 const hintBtn = document.getElementById('hint-btn');
 const sendBtn = document.getElementById('send-btn');
+const imageInput = document.getElementById('image-input');
+const imageIcon = document.getElementById('image-icon');
+
+// Mostrar visual quando imagem for selecionada
+imageInput.addEventListener('change', function() {
+    if (imageInput.files && imageInput.files[0]) {
+        imageIcon.style.background = '#e0eaff';
+        imageIcon.style.boxShadow = '0 0 0 2px #4a90e2';
+        imageIcon.title = 'Imagem selecionada: ' + imageInput.files[0].name;
+    } else {
+        imageIcon.style.background = '';
+        imageIcon.style.boxShadow = '';
+        imageIcon.title = 'Enviar imagem';
+    }
+});
 
 // Função para buscar estatísticas do jogo
 async function fetchGameStatistics() {
@@ -98,19 +113,36 @@ async function startNewGame() {
 
 async function sendMessage(customMessage = null) {
     const message = customMessage || userInput.value.trim();
-    if (!message || !gameState.started) return;
+    const imageFile = imageInput.files[0];
+    if ((!message && !imageFile) || !gameState.started) return;
 
-    addMessage('user', message, 'user');
+    if (message) addMessage('user', message, 'user');
+    if (imageFile) addMessage('user', '[Imagem enviada]', 'user');
     userInput.value = '';
+    imageInput.value = '';
+    imageIcon.style.background = '';
+    imageIcon.style.boxShadow = '';
+    imageIcon.title = 'Enviar imagem';
 
     try {
         showLoading();
-        const response = await fetch(`${BACKEND_URL}/send_message`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message })
-        });
-        const data = await response.json();
+        let response, data;
+        if (imageFile) {
+            const formData = new FormData();
+            formData.append('message', message);
+            formData.append('image', imageFile);
+            response = await fetch(`${BACKEND_URL}/send_message`, {
+                method: 'POST',
+                body: formData
+            });
+        } else {
+            response = await fetch(`${BACKEND_URL}/send_message`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            });
+        }
+        data = await response.json();
         
         if (response.ok) {
             if (data.status === 'correct') {
@@ -247,6 +279,9 @@ function addMessage(role, text, type = 'normal') {
 function enableInput() {
     userInput.disabled = false;
     sendBtn.disabled = false;
+    imageInput.disabled = false;
+    imageIcon.style.opacity = '1';
+    imageIcon.style.pointerEvents = 'auto';
     userInput.placeholder = "Digite seu palpite ou peça uma dica...";
     userInput.focus();
 }
@@ -254,6 +289,9 @@ function enableInput() {
 function disableInput() {
     userInput.disabled = true;
     sendBtn.disabled = true;
+    imageInput.disabled = true;
+    imageIcon.style.opacity = '0.5';
+    imageIcon.style.pointerEvents = 'none';
     userInput.placeholder = "Clique em 'Novo Jogo' para jogar novamente";
 }
 
