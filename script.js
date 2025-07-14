@@ -1,3 +1,6 @@
+// URL do backend no Render
+const BACKEND_URL = 'https://backend-ca-a-dicas.onrender.com';
+
 // Estado do jogo
 let gameState = {
     started: false,
@@ -27,7 +30,7 @@ const sendBtn = document.getElementById('send-btn');
 // Função para buscar estatísticas do jogo
 async function fetchGameStatistics() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/get_statistics', {
+        const response = await fetch(`${BACKEND_URL}/get_statistics`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -48,7 +51,7 @@ async function fetchGameStatistics() {
 async function startNewGame() {
     try {
         showLoading();
-        const response = await fetch('http://127.0.0.1:5000/start_game', {
+        const response = await fetch(`${BACKEND_URL}/start_game`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({})
@@ -102,7 +105,7 @@ async function sendMessage(customMessage = null) {
 
     try {
         showLoading();
-        const response = await fetch('http://127.0.0.1:5000/send_message', {
+        const response = await fetch(`${BACKEND_URL}/send_message`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: message })
@@ -192,7 +195,7 @@ function handleWrongGuess(data) {
 
 async function generateSmallHint() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/generate_small_hint', {
+        const response = await fetch(`${BACKEND_URL}/generate_small_hint`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({})
