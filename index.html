@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caça-Dicas do Conhecimento</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🎯 Caça-Dicas do Conhecimento</h1>
+            <p>Teste seus conhecimentos e descubra o conceito secreto!</p>
+        </div>
+        
+        <div class="score-board">
+            <div class="score-item">
+                <div class="label">Pontuação</div>
+                <div class="value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="label">Dicas Usadas</div>
+                <div class="value" id="hints-used">0</div>
+            </div>
+            <div class="score-item">
+                <div class="label">Tempo</div>
+                <div class="value" id="timer">0s</div>
+            </div>
+            <div class="score-item">
+                <div class="label">Vitórias</div>
+                <div class="value" id="wins">0</div>
+            </div>
+        </div>
+        
+        <div class="game-controls">
+            <button class="btn btn-primary" onclick="startNewGame()">
+                🎮 Novo Jogo
+            </button>
+            <button class="btn btn-secondary" onclick="showRules()">
+                📖 Regras
+            </button>
+            <button class="btn btn-secondary" onclick="showStats()">
+                📊 Estatísticas
+            </button>
+            <button class="btn btn-accent" onclick="requestHint()" id="hint-btn" style="display: none;">
+                💡 Pedir Dica
+            </button>
+        </div>
+        
+        <div class="category-display" id="category-display">
+            Clique em "Novo Jogo" para começar!
+        </div>
+        
+        <div class="chat-box" id="chat-box">
+            <!-- Mensagens do jogo aparecerão aqui -->
+        </div>
+        
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Digite seu palpite ou peça uma dica..." onkeypress="handleKeyPress(event)" disabled>
+            <button class="btn btn-primary" onclick="sendMessage()" id="send-btn" disabled>
+                Enviar
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal de Regras -->
+    <div class="rules-modal" id="rules-modal">
+        <div class="modal-content">
+            <h2>📖 Como Jogar</h2>
+            <p><strong>Objetivo:</strong> Adivinhar o conceito secreto usando as dicas fornecidas.</p>
+            <ul>
+                <li>🎯 Clique em "Novo Jogo" para começar</li>
+                <li>💡 Use "Pedir Dica" quando precisar de ajuda</li>
+                <li>🔍 Após 2 palpites errados, você receberá uma dica automática</li>
+                <li>⏱️ Quanto menos tempo e dicas, mais pontos você ganha</li>
+                <li>🎉 Tente adivinhar o conceito secreto!</li>
+            </ul>
+            <button class="btn btn-primary" onclick="hideRules()">Entendi!</button>
+        </div>
+    </div>
+    
+    <!-- Modal de Estatísticas -->
+    <div class="stats-modal" id="stats-modal">
+        <div class="modal-content">
+            <h2>📊 Suas Estatísticas</h2>
+            <div id="stats-content">
+                <p>Jogos jogados: <span id="games-played">0</span></p>
+                <p>Taxa de acerto: <span id="win-rate">0%</span></p>
+                <p>Melhor tempo: <span id="best-time">-</span></p>
+                <p>Pontuação total: <span id="total-score">0</span></p>
+            </div>
+            <button class="btn btn-primary" onclick="hideStats()">Fechar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
