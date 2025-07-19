@@ -328,7 +328,7 @@ function updateDisplay() {
 }
 
 function showLoading() {
-    sendBtn.innerHTML = '<span class="loading"></span>';
+    sendBtn.innerHTML = '<span class="loading"></span> Iniciando o servidor (pode levar alguns segundos)...';
     sendBtn.disabled = true;
 }
 
